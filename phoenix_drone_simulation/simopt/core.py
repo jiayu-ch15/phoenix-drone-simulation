@@ -14,6 +14,7 @@ from typing import Tuple, Optional
 # local imports
 import phoenix_drone_simulation.utils.mpi_tools as mpi
 from phoenix_drone_simulation.utils import loggers
+import copy
 
 
 class DataBufferBase(object):
@@ -143,11 +144,12 @@ class RealWorldDataBuffer(DataBufferBase):
                     df = pd.read_csv(abs_path)
 
                     loggers.debug(f'Check data in {file_name}')
-                    self.sanity_check_of_data(df)
+                    # self.sanity_check_of_data(df)
                     obs, PWMs, voltages = self.extract_from_data_frame(df)
 
-                    PWMs_compensated = RealWorldDataBuffer.exclude_battery_compensation(
-                        PWMs, voltages)
+                    # PWMs_compensated = RealWorldDataBuffer.exclude_battery_compensation(
+                    #     PWMs, voltages)
+                    PWMs_compensated = copy.deepcopy(PWMs)
 
                     M = obs.shape[0]
                     T = self.mini_trajectory_size

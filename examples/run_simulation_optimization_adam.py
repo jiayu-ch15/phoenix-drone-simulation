@@ -13,21 +13,22 @@ import time
 import getpass
 import torch as th
 import torch.optim
+import pdb
 
 # local imports
 import phoenix_drone_simulation.utils.loggers as loggers
 import phoenix_drone_simulation.utils.mpi_tools as mpi
-from phoenix_drone_simulation.simopt.pybullet import ObjectiveFunctionCircleTask
+from phoenix_drone_simulation.simopt.pybullet import ObjectiveFunctionCircleTask, ObjectiveFunctionHoverTask
 
 
 def optimize_with_Adam(args):
     r"""Apply Adams' Stochastic Gradient Descend based on finite-differences."""
-    obj_func = ObjectiveFunctionCircleTask(seed=args.seed)
+    obj_func = ObjectiveFunctionHoverTask(seed=args.seed)
 
     # set up logger
     user_name = getpass.getuser()
     logger_kwargs = loggers.setup_logger_kwargs(
-        base_dir=f'/var/tmp/{user_name}',
+        base_dir='/home/jiayu/phoenix-drone-simulation/outputs',
         exp_name='simOpt/Adam',
         seed=args.seed
     )
@@ -103,7 +104,9 @@ def optimize_with_Adam(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # Exclude hyper-threading and round cores to anything in: [2, 4, 8, 16, ...]
-    cores = 2 ** int(np.log2(psutil.cpu_count(logical=False)))
+    # cores = 2 ** int(np.log2(psutil.cpu_count(logical=False)))
+    # cores = 1
+    cores = 32
     parser.add_argument('--cores', '-c', type=int, default=cores)
     # Random seed lies in range [0, 65535]
     parser.add_argument('--seed', default=int(time.time()) % 2**16)

@@ -254,8 +254,7 @@ class ObjectiveFunctionHoverTask(ObjectiveFunctionPyBullet):
             seed: Optional[int] = None
     ):
         current_file_path = os.path.dirname(os.path.abspath(__file__))
-        files_path = os.path.join(current_file_path,
-                                  '../../data/sim_opt/hover_task')
+        files_path = os.path.join(current_file_path, 'data/hover_task')
         super().__init__(seed=seed, files_path=files_path)
 
     def _load_simulation(self) -> gym.Env:
@@ -279,7 +278,7 @@ class ObjectiveFunctionCircleTask(ObjectiveFunctionPyBullet):
     ):
         current_file_path = os.path.dirname(os.path.abspath(__file__))
         files_path = os.path.join(current_file_path,
-                                  '../../data/sim_opt/circle_task')
+                                  '/data/circle_task')
         super().__init__(seed=seed, files_path=files_path)
 
     def _load_simulation(self) -> gym.Env:
